@@ -5,13 +5,36 @@
 {% block 'content' %}
 
     
-    <h1>{{video.title}}</h1>
-    <p>Posted by: <a href="{% url 'profile-view' video.author %}">{{video.author}}</a> Views: {{video.views}}</p>
+    <div class="row">
 
-    <video width="1280" height="720" controls poster="{{ video.thumbnail.url}}">
-        <source src="{{video.video.url}}"
-    </video>
+    <div class="col">
+        <video class="video" controls poster="{{ video.thumbnail.url}}">
+            <source src="{{video.video.url}}">
+        </video>
+            <h1>{{video.title}}</h1>
+            <p>
+                Posted by: 
+                <a href="{% url 'profile-view' video.author %}">{{video.author}}</a>
+                Views: {{video.views}}
+            </p>
+    </div>
 
-    
+        <div class="col">
+
+
+                {% for video in videos %}
+                <div class="video-cart">
+                    <img style="float: left;" src="{{video.thumbnail.url}}" width="160" height="120">
+                    <p><br>{{video.title}}<br>
+                        {{video.author}} <br>
+                        Views: {{video.views}}</p>
+                <div>
+                {% endfor %}
+            
+
+        </div>
+
+    </div>
+
 
 {% endblock %}

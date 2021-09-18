@@ -13,7 +13,9 @@ def detail(request, video_slug):
     video = get_object_or_404(Video, slug=video_slug)
     video.views = video.views + 1
     video.save()
+    videos = Video.objects.all()
     context = {
         "video": video,
+        "videos": videos,
     }
     return render(request,'detail.html', context)
