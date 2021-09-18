@@ -3,5 +3,11 @@
 {% block 'title' %}Vidoestream{% endblock %}
 
 {% block 'content' %}
-<h1>Hello World!</h1>
+    <h1>Hello World!</h1>
+    {% for video in videos %}
+        <p>{{video.title}}</p>
+        <video width="1280" height="720" controls poster="{{ video.thumbnail.url}}">
+            <source src="{{video.video.url}}"
+        </video>
+    {% endfor %}
 {% endblock %}

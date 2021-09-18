@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from .models import Video
 
 def home(request):
-    return render(request, 'home.html')
+    videos = Video.objects.all()
+    context = {
+        "videos":videos,
+    }
+    return render(request,'home.html', context)
