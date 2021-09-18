@@ -4,9 +4,14 @@
 
 {% block 'content' %}
 
+    
+    <h1>{{video.title}}</h1>
+    <p>Views: {{video.views}}</p>
+
     <video width="1280" height="720" controls poster="{{ video.thumbnail.url}}">
         <source src="{{video.video.url}}"
     </video>
-    <h1>{{video.title}}</h1>
+
+    
 
 {% endblock %}
