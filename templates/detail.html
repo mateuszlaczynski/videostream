@@ -1,0 +1,12 @@
+{% extends "base.html"%}
+
+{% block 'title' %}{{video.title}}{% endblock %}
+
+{% block 'content' %}
+
+    <video width="1280" height="720" controls poster="{{ video.thumbnail.url}}">
+        <source src="{{video.video.url}}"
+    </video>
+    <h1>{{video.title}}</h1>
+
+{% endblock %}

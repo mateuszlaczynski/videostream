@@ -14,5 +14,8 @@ class Video(models.Model):
         return self.title
     
     def save(self, *args, **kwargs):
-        self.slug = f"{self.id}/{slugify(self.title)}"
+        self.slug = slugify(str(self.id) +"-"+self.title)
         super(Video,self).save()
+    
+    def get_absolute_url(self):
+        return f"watch/{self.slug}"
