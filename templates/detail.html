@@ -61,7 +61,7 @@
                     <a href="{% url 'profile-view' comment.author %}">
                         <img class="author-comment-img" src="{{ comment.author.profile.image.url}}">
                         {{comment.author}}
-                    </a>
+                    </a> : {{comment.date}}
 
                     <p style="overflow-wrap: break-word; width: 100%;
                     padding:10px; margin-left:15px">{{comment.content}}</p>

@@ -6,7 +6,19 @@
     
     <img class="profile-img"src="{{user.profile.image.url}}"/>
     <h3>{{user.username}}</h3>
-    <h5>Followers: 0</h3>
+    <h5>Followers: {{profile.count_followers}}</h3>
+    {% if profile.user == request.user %}
+    <form action="{% url 'follow' profile.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" name="profile_id" value="{{ profile.id }}" class="btn btn-danger" disabled>Subscribe</button>
+    </form>
+    {% else %}
+    <form action="{% url 'follow' profile.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" name="profile_id" value="{{ profile.id }}" class="btn btn-danger">Subscribe</button>
+    </form>
+    {% endif %}
+
     <br><hr>
     <p style="text-align:justify;">{{user.profile.bio}}</p>
     <hr>

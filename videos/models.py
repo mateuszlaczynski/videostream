@@ -14,6 +14,9 @@ class Video(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True,blank=True, related_name="author")
     likes = models.ManyToManyField(User, blank=True, related_name="video")
 
+    class Meta:
+        ordering = ['-date']
+
     def __str__(self):
         return self.title
 
@@ -26,11 +29,13 @@ class Video(models.Model):
     
     def get_absolute_url(self):
         return f"/watch/{self.slug}/"
+    
 
 class Comment(models.Model):
     author = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     content = models.TextField(max_length=1500)
     video = models.ForeignKey(Video,null=True, blank=True, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return f"{self.author}: {self.content[:30]}"
