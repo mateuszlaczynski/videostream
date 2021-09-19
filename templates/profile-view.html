@@ -1,22 +1,38 @@
 {% extends "base.html"%}
 
-{% block 'title' %}{{user.username}}{% endblock %}
+{% block 'title' %}{{profile.user.username}}{% endblock %}
 
 {% block 'content' %}
     
     <img class="profile-img"src="{{user.profile.image.url}}"/>
-    <h3>{{user.username}}</h3>
+    <h3>{{profile.user.username}}</h3>
     <h5>Followers: {{profile.count_followers}}</h3>
-    {% if profile.user == request.user %}
-    <form action="{% url 'follow' profile.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" name="profile_id" value="{{ profile.id }}" class="btn btn-danger" disabled>Subscribe</button>
-    </form>
-    {% else %}
-    <form action="{% url 'follow' profile.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" name="profile_id" value="{{ profile.id }}" class="btn btn-danger">Subscribe</button>
-    </form>
+
+    {% if user.is_authenticated %}
+
+        {% if profile.user == request.user %}
+
+        <form action="{% url 'follow' profile.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" name="profile_id" value="{{ profile.id }}" class="btn btn-danger" disabled>Subscribe</button>
+        </form>
+        
+        {% else %}
+
+            {% if request.user in profile.followers.all %}
+                <form action="{% url 'unfollow' profile.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="profile_id" value="{{ profile.id }}" class="btn btn-danger">Unsubscribe</button>
+                </form>
+            {% else %}
+                <form action="{% url 'follow' profile.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="profile_id" value="{{ profile.id }}" class="btn btn-danger">Subscribe</button>
+                </form>
+            {%endif %}
+
+        {% endif %}
+
     {% endif %}
 
     <br><hr>

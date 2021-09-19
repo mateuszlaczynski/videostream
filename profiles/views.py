@@ -45,3 +45,10 @@ def follow(request, id):
         profile.followers.add(request.user)
     return HttpResponseRedirect(reverse('profile-view', args=[str(profile.user.username)]))
  
+@login_required
+def unfollow(request, id): 
+    profile = get_object_or_404(Profile, id=request.POST.get('profile_id'))
+    if profile.user != request.user:
+        profile.followers.remove(request.user)
+    return HttpResponseRedirect(reverse('profile-view', args=[str(profile.user.username)]))
+ 
