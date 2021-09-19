@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from .models import Video, Comment
 from .forms import CommentForm, VideoForm
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 def home(request):
     videos = Video.objects.all()
@@ -26,7 +26,7 @@ def detail(request, video_slug):
             form.author = request.user
             form.video = video
             form.save()
-            return redirect('home')
+            return HttpResponseRedirect(reverse('detail', args=[str(video.slug)]))
     else:
         comment_form = CommentForm()
     context = {
@@ -38,6 +38,18 @@ def detail(request, video_slug):
     }
     return render(request,'detail.html', context)
 
+@login_required
+def like(request, id):
+    video = get_object_or_404(Video, id=request.POST.get('video_id'))
+    video.likes.add(request.user)
+    return HttpResponseRedirect(reverse('detail', args=[str(video.slug)]))
+
+@login_required
+def dislike(request, id):
+    video = get_object_or_404(Video, id=request.POST.get('video_id'))
+    video.likes.remove(request.user)
+    return HttpResponseRedirect(reverse('detail', args=[str(video.slug)]))
+
 
 @login_required
 def add_video(request):
@@ -47,7 +59,7 @@ def add_video(request):
             video = form.save(commit=False)
             video.author = request.user
             video.save()
-            return redirect('home')
+            return HttpResponseRedirect(reverse('detail', args=[str(video.slug)]))
     else:
         form = VideoForm()
     context = {

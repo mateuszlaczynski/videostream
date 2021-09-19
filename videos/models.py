@@ -11,10 +11,14 @@ class Video(models.Model):
     date = models.DateField(default=timezone.now)
     thumbnail = models.ImageField(upload_to="thumbnails")
     views = models.IntegerField(default=0)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True,blank=True)
-    
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True,blank=True, related_name="author")
+    likes = models.ManyToManyField(User, blank=True, related_name="video")
+
     def __str__(self):
         return self.title
+
+    def total_likes(self):
+        return self.likes.count()
     
     def save(self, *args, **kwargs):
         self.slug = slugify(str(self.id) +"-"+self.title[:40])
