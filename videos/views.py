@@ -37,3 +37,18 @@ def detail(request, video_slug):
     return render(request,'detail.html', context)
 
 
+@login_required
+def add_video(request):
+    if request.method == 'POST':
+        form = VideoForm(request.POST, request.FILES)
+        if form.is_valid():
+            video = form.save(commit=False)
+            video.author = request.user
+            video.save()
+            return redirect('home')
+    else:
+        form = VideoForm()
+    context = {
+        'form': form
+    }
+    return render(request,'add-video.html', context)

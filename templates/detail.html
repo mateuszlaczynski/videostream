@@ -23,13 +23,12 @@
 
             <div id="description">
                 <p style="overflow-wrap: break-word; width: 100%;">{{video.description | slice:":2" }}</p>
-                <button onclick="showDescription()">Show description</button>
+                <button onclick="showDescription('{{video.description}}')">Show description</button>
             </div>
             
             <hr>  
-
             <h5>Comments:</h5>
-            <hr>
+
             {% for comment in comments %}
                 <div class="comment-card">
 
@@ -38,13 +37,16 @@
                         {{comment.author}}
                     </a>
 
-                    <p style="overflow-wrap: break-word; width: 100%;">{{comment.content}}</p>
+                    <p style="overflow-wrap: break-word; width: 100%;
+                    padding:10px; margin-left:15px">{{comment.content}}</p>
                 </div>
+            {% empty %}
+            <p style="padding:10px; margin-left:15px">No comments yet...</p>    
             {% endfor %}
             
-        
+        <hr>
         {% if user.is_authenticated %}
-            <hr>
+
             <div>
                 <form method="post">
                     {% csrf_token %}
