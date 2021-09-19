@@ -1,4 +1,4 @@
-from .models import Comment
+from .models import Comment, Video
 from django.forms import ModelForm
 
 class CommentForm(ModelForm):
@@ -8,3 +8,8 @@ class CommentForm(ModelForm):
         labels = {
             "content":"Type your comment here",
         }
+
+class VideoForm(ModelForm):    
+    class Meta:
+        model = Video
+        fields = ['video','thumbnail','title','description']

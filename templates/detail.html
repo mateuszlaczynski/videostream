@@ -8,38 +8,40 @@
     
     <div class="row">
 
-    <div class="col">
+    <div class="col" style="max-width:700px;">
         <video class="video" controls poster="{{ video.thumbnail.url}}">
             <source src="{{video.video.url}}">
         </video>
-            <h1>{{video.title}}</h1>
+            <h2 style="overflow-wrap: break-word; width: 100%;">{{video.title}}</h2>
             <p>{{video.date}}: {{video.views}} views</p>
             <a href="{% url 'profile-view' video.author %}">
-                <img class="author-video-img" style="max-width:100px; max-height:100px;
-                    border-radius:50%; min-width:100px; min-height:100px;"
-                    src="{{ video.author.profile.image.url}}">
+                <img class="author-video-img" src="{{ video.author.profile.image.url}}">
                 {{video.author}}
             </a>
-            <p>{{video.description | slice:":100"}}</p>
+
+            <h5 style="margin-top:10px;">Description:</h5>
+
+            <div id="description">
+                <p style="overflow-wrap: break-word; width: 100%;">{{video.description | slice:":2" }}</p>
+                <button onclick="showDescription()">Show description</button>
+            </div>
+            
             <hr>  
-        <div>
-            <h3>Comments:</h3>
+
+            <h5>Comments:</h5>
             <hr>
             {% for comment in comments %}
                 <div class="comment-card">
 
                     <a href="{% url 'profile-view' comment.author %}">
-                        <img class="author-comment-img" style="max-width:50px; max-height:50px;
-                        border-radius:50%; min-width:50px; min-height:50px;"
-                        src="{{ comment.author.profile.image.url}}">
+                        <img class="author-comment-img" src="{{ comment.author.profile.image.url}}">
                         {{comment.author}}
                     </a>
 
-                    <p>{{comment.content}}</p>
+                    <p style="overflow-wrap: break-word; width: 100%;">{{comment.content}}</p>
                 </div>
             {% endfor %}
             
-        </div>
         
         {% if user.is_authenticated %}
             <hr>
@@ -58,19 +60,15 @@
 
 
             {% for video in videos %}
-                <a href="{{video.get_absolute_url}}">   
-                    <div class="video-card" style="background-color: #f2f2f2; width: 400px;
-                                                    height:121px; text-align: center;
-                                                    border-bottom: 1px solid black;
-                                                    margin-top: 20px;">
-
+                <a href="{{video.get_absolute_url}}" style="text-decoration: none;">   
+                    <div class="video-card">
                             <img style="float: left;" src="{{video.thumbnail.url}}" width="160" height="120">
-                            <p style="color:black; text-decoration: none"><br>{{video.title}}<br>
+                            <p style="color:black; text-decoration: none"><br>{{video.title | truncatechars:25}}<br>
                                 {{video.author}} <br>
                                 Views: {{video.views}}</p>
 
-                    <div>
-                </a>
+                    </div>
+                </a><br>
             {% endfor %}
             
 
@@ -78,5 +76,3 @@
     </div>
 
 {% endblock %}
-
-<style>

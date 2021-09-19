@@ -4,7 +4,18 @@
 
 {% block 'content' %}
     <h1>Hello World!</h1>
-    {% for video in videos %}
-        <a href="{{video.get_absolute_url}}">{{video.title}}</p>
-    {% endfor %}
+    <div class="row">
+        {% for video in videos %}
+                <a href="{{video.get_absolute_url}}" style="text-decoration: none;">   
+                    <div class="video-home-card">
+                            <img style="float: left;" src="{{video.thumbnail.url}}" width="256" height="134">
+                            <br>
+                            <img style="float:left; border-radius:50%; padding:5px" src="{{video.author.profile.image.url}}" width="50" height="50">
+                            <p style="color:black; text-decoration: none"><br>{{video.title | truncatechars:25}}<br>
+                                {{video.author}} views: {{video.views}}
+                            </p>
+                    </div>
+                </a>
+        {% endfor %}
+    </div>
 {% endblock %}

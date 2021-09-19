@@ -4,7 +4,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
 class Video(models.Model):
-    title = models.CharField(max_length=150)
+    title = models.CharField(max_length=120)
     description = models.TextField(max_length=1500)
     video = models.FileField(upload_to="videos")
     slug = models.SlugField(blank=True, null=True, unique=True)
@@ -17,11 +17,11 @@ class Video(models.Model):
         return self.title
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(str(self.id) +"-"+self.title)
+        self.slug = slugify(str(self.id) +"-"+self.title[:40])
         super(Video,self).save()
     
     def get_absolute_url(self):
-        return f"watch/{self.slug}"
+        return f"/watch/{self.slug}/"
 
 class Comment(models.Model):
     author = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)

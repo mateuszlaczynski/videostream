@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from .models import Video, Comment
-from .forms import CommentForm
+from .forms import CommentForm, VideoForm
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     videos = Video.objects.all()
@@ -34,3 +35,5 @@ def detail(request, video_slug):
         "comment_form":comment_form,
     }
     return render(request,'detail.html', context)
+
+
