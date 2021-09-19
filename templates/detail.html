@@ -1,4 +1,5 @@
 {% extends "base.html"%}
+{% load crispy_forms_tags %}
 
 {% block 'title' %}{{video.title}}{% endblock %}
 
@@ -12,29 +13,70 @@
             <source src="{{video.video.url}}">
         </video>
             <h1>{{video.title}}</h1>
-            <p>
-                Posted by: 
-                <a href="{% url 'profile-view' video.author %}">{{video.author}}</a>
-                Views: {{video.views}}
-            </p>
+            <p>{{video.date}}: {{video.views}} views</p>
+            <a href="{% url 'profile-view' video.author %}">
+                <img class="author-video-img" style="max-width:100px; max-height:100px;
+                    border-radius:50%; min-width:100px; min-height:100px;"
+                    src="{{ video.author.profile.image.url}}">
+                {{video.author}}
+            </a>
+            <p>{{video.description | slice:":100"}}</p>
+            <hr>  
+        <div>
+            <h3>Comments:</h3>
+            <hr>
+            {% for comment in comments %}
+                <div class="comment-card">
+
+                    <a href="{% url 'profile-view' comment.author %}">
+                        <img class="author-comment-img" style="max-width:50px; max-height:50px;
+                        border-radius:50%; min-width:50px; min-height:50px;"
+                        src="{{ comment.author.profile.image.url}}">
+                        {{comment.author}}
+                    </a>
+
+                    <p>{{comment.content}}</p>
+                </div>
+            {% endfor %}
+            
+        </div>
+        
+        {% if user.is_authenticated %}
+            <hr>
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+                    {{comment_form | crispy}}
+                    <input type="submit" value="Submit">    
+                </form>
+            </div>
+        {% endif %}
+
     </div>
 
         <div class="col">
 
 
-                {% for video in videos %}
-                <div class="video-cart">
-                    <img style="float: left;" src="{{video.thumbnail.url}}" width="160" height="120">
-                    <p><br>{{video.title}}<br>
-                        {{video.author}} <br>
-                        Views: {{video.views}}</p>
-                <div>
-                {% endfor %}
+            {% for video in videos %}
+                <a href="{{video.get_absolute_url}}">   
+                    <div class="video-card" style="background-color: #f2f2f2; width: 400px;
+                                                    height:121px; text-align: center;
+                                                    border-bottom: 1px solid black;
+                                                    margin-top: 20px;">
+
+                            <img style="float: left;" src="{{video.thumbnail.url}}" width="160" height="120">
+                            <p style="color:black; text-decoration: none"><br>{{video.title}}<br>
+                                {{video.author}} <br>
+                                Views: {{video.views}}</p>
+
+                    <div>
+                </a>
+            {% endfor %}
             
 
         </div>
-
     </div>
 
-
 {% endblock %}
+
+<style>

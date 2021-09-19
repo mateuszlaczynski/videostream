@@ -22,3 +22,11 @@ class Video(models.Model):
     
     def get_absolute_url(self):
         return f"watch/{self.slug}"
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    content = models.TextField(max_length=1500)
+    video = models.ForeignKey(Video,null=True, blank=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.author}: {self.content[:30]}"
