@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from videos.models import Video
 
 def signup(request):
     if request.method == 'POST':
@@ -20,12 +21,18 @@ def signup(request):
 
 @login_required
 def my_profile(request):
-    return render(request,'my-profile.html')
+    videos = Video.objects.filter(author=request.user)
+    context = {
+        'videos':videos,
+        }
+    return render(request,'my-profile.html', context)
 
 def profile_view(request, username):
     user = User.objects.get(username=username)
     profile = get_object_or_404(Profile, user=user)
+    videos = Video.objects.filter(author=user)
     context = {
-        'profile': profile
+        'profile': profile,
+        'videos':videos,
         }
     return render(request,'profile-view.html', context)
