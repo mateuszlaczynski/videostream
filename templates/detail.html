@@ -22,11 +22,13 @@
             <h5 style="margin-top:10px;">Description:</h5>
 
             <div id="description">
-                <p style="overflow-wrap: break-word; width: 100%;">{{video.description | slice:":2" }}</p>
-                <button onclick="showDescription('{{video.description}}')">Show description</button>
+                <p style="overflow-wrap: break-word; width: 100%;">{{video.description | truncatechars:101 }}</p>
+                {% if description_length > 100 %}
+                    <button class="description-button" onclick="showDescription('{{video.description}}')">↓ Show full description ↓</button>
+                {% endif %}
             </div>
             
-            <hr>  
+            <br>
             <h5>Comments:</h5>
 
             {% for comment in comments %}

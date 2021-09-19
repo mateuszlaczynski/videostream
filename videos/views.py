@@ -16,6 +16,7 @@ def detail(request, video_slug):
     video = get_object_or_404(Video, slug=video_slug)
     video.views = video.views + 1
     video.save()
+    description_length = len(video.description)
     videos = Video.objects.all()
     comments = Comment.objects.filter(video=video)
     if request.method == 'POST':
@@ -31,6 +32,7 @@ def detail(request, video_slug):
     context = {
         "video": video,
         "videos": videos,
+        "description_length":description_length,
         "comments": comments,
         "comment_form":comment_form,
     }

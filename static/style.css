@@ -45,3 +45,14 @@
 .comment-card {
     max-width: 600px;
 }
+.description-button {
+    background-color: white;
+    background-color: white;
+    border:none;
+    border-bottom: 1px solid black;
+    text-align: center;
+     width: 100%;
+}
+.description-button:hover {
+    background-color:lightgray;
+}
