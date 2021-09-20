@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from .forms import UserSignUpForm
+from .forms import UserSignUpForm, UserEditForm, ProfileEditForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 from django.contrib.auth.models import User
@@ -22,7 +22,7 @@ def signup(request):
 
 @login_required
 def my_profile(request):
-    videos = Video.objects.filter(author=request.user).order_by('-date')
+    videos = Video.objects.filter(author=request.user).order_by('date')
     context = {
         'videos':videos,
         }
@@ -51,4 +51,24 @@ def unfollow(request, id):
     if profile.user != request.user:
         profile.followers.remove(request.user)
     return HttpResponseRedirect(reverse('profile-view', args=[str(profile.user.username)]))
- 
+
+@login_required
+def edit_profile(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    if request.method == 'POST':
+        u_form = UserEditForm(request.POST, instance=request.user)
+        p_form = ProfileEditForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            return redirect('my-profile')
+    else:
+        u_form = UserEditForm(instance=request.user)
+        p_form = ProfileEditForm(instance=request.user.profile)        
+        
+    context = {
+        'profile':profile,
+        'u_form':u_form,
+        'p_form':p_form
+    }
+    return render(request, 'edit-profile.html',context)

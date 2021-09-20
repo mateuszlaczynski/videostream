@@ -5,7 +5,7 @@
 .video-card {
     background-color: #f2f2f2;
     width: 400px;
-    height:121px;
+    height:120px;
     text-align: center;
     border-bottom: 1px solid lightgray;
     border-top: 1px solid lightgray;
@@ -14,7 +14,7 @@
 .video-card:hover {
     background-color: #e6e6e6;
     width: 400px;
-    height:120px;
+    height: 122px;
     border: 1px solid black;
     color: black;
 }
@@ -23,6 +23,17 @@
     margin:10px;
     border: 1px solid lightgray;
 }
+.video-card-dashboard {
+    width: 100%;
+    height:120px;
+    border-bottom: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+    color:#262626;
+    margin-bottom:15px;
+    text-align:center;
+}
+
+
 .video-home-card:hover {
     border: 1px solid black;
     background-color:#e6e6e6;

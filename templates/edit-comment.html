@@ -1,0 +1,17 @@
+{% extends "base.html"%}
+{% load crispy_forms_tags %}
+
+{% block 'title' %}Edit Comment{% endblock %}
+
+{% block 'content' %}
+    {% if user.is_authenticated %}
+        {% if comment.author == request.user %}
+            <h1>Edit comment:</h1> 
+                <form method="POST">
+                {% csrf_token %}
+                {{form | crispy}}
+                <input class="btn btn-primary" type="submit" value="Submit">
+
+        {% endif %}
+    {% endif %}
+{% endblock %}

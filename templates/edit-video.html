@@ -1,0 +1,15 @@
+{% extends "base.html"%}
+{% load crispy_forms_tags %}
+
+{% block 'title' %}Edit {{video.title}}{% endblock %}
+
+{% block 'content' %}
+    {% if request.user == video.author %}
+        <h1>Edit Video:</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form | crispy}}
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+    {% endif %}
+{% endblock %}

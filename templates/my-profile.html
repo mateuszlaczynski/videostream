@@ -7,10 +7,10 @@
     <img class="profile-img"src="{{user.profile.image.url}}"/>
     <h3>{{user.username}}</h3>
     <h5>Followers: 0</h3>
+    <a href="{% url 'edit-profile' %}" class="btn btn-success">Edit Profile &#129691;</a>
     <br><hr>
     <p style="text-align:justify;">{{user.profile.bio}}</p>
-    <hr>
-    
+
     <div class="row" id="content">
         {% for video in videos %}
                 <a href="{{video.get_absolute_url}}" style="text-decoration: none;">   

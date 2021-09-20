@@ -4,7 +4,7 @@
 
 {% block 'content' %}
     
-    <img class="profile-img"src="{{user.profile.image.url}}"/>
+    <img class="profile-img"src="{{profile.image.url}}"/>
     <h3>{{profile.user.username}}</h3>
     <h5>Followers: {{profile.count_followers}}</h3>
 
@@ -35,10 +35,9 @@
 
     {% endif %}
 
-    <br><hr>
-    <p style="text-align:justify;">{{user.profile.bio}}</p>
     <hr>
-    
+    <p style="text-align:justify;">{{user.profile.bio}}</p>
+ 
     <div class="row" id="content">
         {% for video in videos %}
                 <a href="{{video.get_absolute_url}}" style="text-decoration: none;">   

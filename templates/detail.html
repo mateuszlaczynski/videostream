@@ -17,21 +17,27 @@
         <h2 style="overflow-wrap: break-word; width: 100%;">{{video.title}}</h2>
         
          {% if user.is_authenticated %}
-            {% if user in video.likes.all  %}
+
+            {% if user in video.likes.all %}
+            
                 <div style="float:right;">
                      <form action="{% url 'dislike-video' video.id %}" method="post">
                         {% csrf_token %}
                         <button type="submit" name="video_id" value="{{ video.id }}" class="like-button">Disike 💔 {{video.total_likes}}</button>
                     </form>
                 </div>
+
             {% else %}
+
                 <div style="float:right;">
                     <form action="{% url 'like-video' video.id %}" method="post">
                         {% csrf_token %}
                         <button type="submit" name="video_id" value="{{ video.id }}" class="like-button">Like ❤ {{video.total_likes}}</button>
                     </form>
                 </div>
+
             {% endif %}
+
         {% endif %}       
         
         <p>{{video.date}}: {{video.views}} views</p>
@@ -40,15 +46,16 @@
         <a style="font-size:36px;" href="{% url 'profile-view' video.author %}">
             <img class="author-video-img" src="{{ video.author.profile.image.url}}">
             {{video.author}}
-
         </a>
 
             <h5 style="margin-top:10px;">Description:</h5>
             <div id="description">
                 <p style="overflow-wrap: break-word; width: 100%;">{{video.description | truncatechars:101 }}</p>
+
                 {% if description_length > 100 %}
                     <button class="description-button" onclick="showDescription('{{video.description}}')">↓ Show full description ↓</button>
                 {% endif %}
+
             </div>
             
 
@@ -63,11 +70,17 @@
                         {{comment.author}}
                     </a> : {{comment.date}}
 
+                    {% if comment.author == request.user %}
+                        <a style="float:right; margin:1px" href="{% url 'delete-comment' comment.id %}" class="btn-sm btn-danger">Delete &#128465;</a>
+                        <a style="float:right; margin:1px" href="{% url 'edit-comment' comment.id %}" class="btn-sm btn-success">Edit &#129691;</a>
+                    {% endif %}
+
                     <p style="overflow-wrap: break-word; width: 100%;
-                    padding:10px; margin-left:15px">{{comment.content}}</p>
+                    padding:10px; margin-left:15px">{{comment.content | safe}}</p>
+
                 </div>
             {% empty %}
-            <p style="padding:10px; margin-left:15px">No comments yet...</p>    
+                <p style="padding:10px; margin-left:15px">No comments yet...</p>    
             {% endfor %}
             
         <hr>

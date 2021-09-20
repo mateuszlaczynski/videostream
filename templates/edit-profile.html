@@ -1,0 +1,18 @@
+{% extends "base.html"%}
+{% load crispy_forms_tags %}
+
+{% block 'title' %}Edit Profile{% endblock %}
+
+{% block 'content' %}
+    <img class="profile-img"src="{{user.profile.image.url}}"/>
+    <h3>{{user.username}}</h3>
+    <h5 style="margin-bottom:23px;">Followers: 0</h3>
+    <br><hr>
+    <h1>Edit Profile:</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{u_form | crispy}}
+        {{p_form | crispy}}
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+{% endblock %}

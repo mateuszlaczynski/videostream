@@ -1,0 +1,33 @@
+{% extends "base.html"%}
+
+{% block 'title' %}{{searched}}{% endblock %}
+
+{% block 'content' %}
+    <h1>You seearched for {{searched}}:</h1>
+    <h3>Users</h3><hr>
+    <div class="row">
+        {% for user in users %}
+            <a style="font-size:16px; text-align:center; margin-right:25px" href="{% url 'profile-view' user.username %}">
+                <img class="author-video-img" src="{{ user.profile.image.url}}"><br>
+                {{user.username }}<br>
+                Followers:{{user.profile.count_followers}}
+            </a>
+        {% endfor %}
+    </div>
+    <br>
+    <h3>Videos</h3><hr>
+    <div class="row">
+        {% for video in videos %}
+                <a href="{{video.get_absolute_url}}" style="text-decoration: none;">   
+                    <div class="video-home-card">
+                            <img style="float: left;" src="{{video.thumbnail.url}}" width="256" height="134">
+                            <br>
+                            <img style="float:left; border-radius:50%; padding:5px" src="{{video.author.profile.image.url}}" width="50" height="50">
+                            <p style="color:black; text-decoration: none"><br>{{video.title | truncatechars:25}}<br>
+                                {{video.author}} views: {{video.views}}
+                            </p>
+                    </div>
+                </a>
+        {% endfor %}
+    </div>
+{% endblock %}
