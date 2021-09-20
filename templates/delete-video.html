@@ -1,0 +1,23 @@
+
+{% extends "base.html"%}
+{% load crispy_forms_tags %}
+
+{% block 'title' %}Delete {{video.title}}{% endblock %}
+
+{% block 'content' %}
+    {% if user.is_authenticated %}
+        {% if video.author == request.user %}
+            <form method="post">{% csrf_token %}
+                <h1>Are you sure you want to delete this video?:</h1><br>
+                <div style="text-align:center">
+                    <h3>{{video.title}}</h3><br>
+                    <video class="video" controls poster="{{ video.thumbnail.url}}">
+                        <source src="{{video.video.url}}">
+                    </video>
+                </div>
+                <br>
+                <input type="submit" class="btn btn-danger"value="Confirm">
+            </form>
+        {% endif %}
+    {% endif %}
+{% endblock %}

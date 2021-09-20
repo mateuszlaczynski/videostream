@@ -11,7 +11,7 @@
         {% for video in videos %}
                 <div class="video-card-dashboard">
 
-                    <a style="float:right; margin:1px" href="#" class="btn-sm btn-danger">Delete &#128465;</a>
+                    <a style="float:right; margin:1px" href="{% url 'delete-video' video.slug %}" class="btn-sm btn-danger">Delete &#128465;</a>
                     <a style="float:right; margin:1px" href="{% url 'edit-video' video.slug %}" class="btn-sm btn-success">Edit &#129691;</a>
                     <a href="{{video.get_absolute_url}}" style="text-decoration: none;">   
                         <img style="float: left;" src="{{video.thumbnail.url}}" width="160" height="120">
