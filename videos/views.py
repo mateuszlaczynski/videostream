@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from profiles.models import Profile
 from django.contrib.auth.models import User
 import datetime
+import random
 
 def home(request):
     videos = Video.objects.all()
@@ -20,7 +21,8 @@ def detail(request, video_slug):
     video.views = video.views + 1
     video.save()
     description_length = len(video.description)
-    videos = Video.objects.all()
+    videos = list(Video.objects.all().exclude(id=video.id))
+    videos = random.sample(videos,7)
     comments = Comment.objects.filter(video=video)
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
